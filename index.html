@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Time App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+      select,
+      button {
+        padding: 10px;
+        font-size: 16px;
+        margin: 5px;
+      }
+      .time-display {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>World Time App</h1>
+    <select id="citySelect" onchange="showTime()">
+      <option value="" disabled selected>Select a city</option>
+      <option value="Europe/Paris">Paris 🇫🇷</option>
+      <option value="Asia/Tokyo">Tokyo 🇯🇵</option>
+      <option value="Australia/Sydney">Sydney 🇦🇺</option>
+      <option value="current">Your Current Location</option>
+    </select>
+    <button onclick="goToHomePage()">Go to Home</button>
+
+    <div class="time-display" id="timeDisplay"></div>
+
+    <script>
+      function showTime() {
+        const select = document.getElementById("citySelect");
+        const city = select.value;
+        const timeDisplay = document.getElementById("timeDisplay");
+        let options;
+
+        if (city === "current") {
+          // Get the user's local time
+          const localDate = new Date();
+          const localTime = localDate.toLocaleString("en-US", {
+            timeZoneName: "short",
+          });
+          timeDisplay.innerHTML = `It is ${localTime} in your current location.`;
+        } else {
+          options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+            timeZone: city,
+          };
+          const dateTime = new Intl.DateTimeFormat("en-US", options).format(
+            new Date()
+          );
+          timeDisplay.innerHTML = `It is ${dateTime} in ${city.split("/")[1]}`;
+        }
+      }
+
+      function goToHomePage() {
+        window.location.href = "https://your-home-page-url.com"; // Replace with your actual homepage URL
+      }
+    </script>
+  </body>
+</html>
